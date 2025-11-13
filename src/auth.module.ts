@@ -1,17 +1,16 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Module, Global } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { TokenModule } from './tokens/tokens.module';
 
+@Global()
 @Module({})
 export class AuthModule {
-  static forRoot(options: any): DynamicModule {
+  static forRoot(): DynamicModule {
     return {
       module: AuthModule,
-      providers: [
-        {
-          provide: 'AUTH_OPTIONS',
-          useValue: options
-        }
-      ],
-      exports: []
+      imports: [TokenModule],
+      providers: [AuthService],
+      exports: [AuthService],
     };
   }
 }
